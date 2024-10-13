@@ -7,15 +7,18 @@ from colorama import init, Fore, Style
 init(autoreset=True)
 
 def clear_screen():
+    """Clear the console screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def animate_text(text, delay=0.03, color=Fore.WHITE):
+    """Print text with a typewriter effect and color."""
     for char in text:
         print(color + char, end='', flush=True)
         time.sleep(delay)
     print(Style.RESET_ALL)
 
 def display_title():
+    """Display the ASCII art title for the countdown timer."""
     title = """
     ██████╗ ██████╗ ██╗   ██╗███╗   ██╗████████╗██████╗  ██████╗ ██╗    ██╗███╗   ██╗
     ██╔════╝██╔═══██╗██║   ██║████╗  ██║╚══██╔══╝██╔══██╗██╔═══██╗██║    ██║████╗  ██║
@@ -27,6 +30,7 @@ def display_title():
     print(Fore.CYAN + Style.BRIGHT + title + Style.RESET_ALL)
 
 def display_clock(hours, minutes, seconds, color=Fore.GREEN):
+    """Display a digital clock-like representation of the time."""
     clock = f"""
     {color}┌──────────────────────────┐
     │                          │
@@ -37,6 +41,7 @@ def display_clock(hours, minutes, seconds, color=Fore.GREEN):
     print(clock)
 
 def countdown_timer(event, total_seconds):
+    """Run the countdown timer and display updates."""
     colors = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
     color_index = 0
 
@@ -54,6 +59,7 @@ def countdown_timer(event, total_seconds):
         total_seconds -= 1
         color_index = (color_index + 1) % len(colors)
 
+    # Display final message when countdown reaches zero
     clear_screen()
     display_title()
     print(Fore.YELLOW + f"\n{' '*10}Countdown to: {event}\n" + Style.RESET_ALL)
@@ -70,6 +76,7 @@ def countdown_timer(event, total_seconds):
     animate_text("\n" + " "*5 + random.choice(fun_messages), color=Fore.MAGENTA)
 
 def get_user_input(prompt):
+    """Get and validate user input for event name."""
     while True:
         user_input = input(Fore.YELLOW + prompt + Style.RESET_ALL).strip()
         if user_input:
@@ -77,6 +84,7 @@ def get_user_input(prompt):
         print(Fore.RED + "Invalid input. Please try again." + Style.RESET_ALL)
 
 def get_time_input(prompt):
+    """Get and validate user input for time values."""
     while True:
         try:
             value = int(input(Fore.YELLOW + prompt + Style.RESET_ALL))
@@ -87,6 +95,7 @@ def get_time_input(prompt):
             print(Fore.RED + "Please enter a valid positive number." + Style.RESET_ALL)
 
 def main():
+    """Main function to run the Countdown Timer."""
     clear_screen()
     display_title()
     animate_text("Welcome to the Countdown Timer!", color=Fore.GREEN)

@@ -8,18 +8,20 @@ import re
 # Initialize colorama for cross-platform colored terminal output
 init(autoreset=True)
 
-#classes for story generation and elemenst
 class StoryElement:
+    """Represents a single element in the story (setting, event, or plot structure)."""
     def __init__(self, category, content):
         self.category = category
         self.content = content
 
 class Character:
+    """Represents a character in the story."""
     def __init__(self, name, role):
         self.name = name
         self.role = role
 
 class StoryGenerator:
+    """Manages story elements and generates a random story."""
     def __init__(self):
         self.characters = []
         self.settings = []
@@ -27,6 +29,7 @@ class StoryGenerator:
         self.plot_structures = []
 
     def add_element(self, category, content):
+        """Add a new story element to the appropriate list."""
         element = StoryElement(category, content)
         if category == "setting":
             self.settings.append(element)
@@ -36,10 +39,12 @@ class StoryGenerator:
             self.plot_structures.append(element)
 
     def add_character(self, name, role):
+        """Add a new character to the story."""
         character = Character(name, role)
         self.characters.append(character)
 
     def generate_story(self):
+        """Generate a random story using the available elements."""
         if not self.characters or not self.settings or not self.events or not self.plot_structures:
             return "Not enough elements to generate a story."
 
@@ -58,13 +63,16 @@ class StoryGenerator:
         return story
 
 def clear_screen():
+    """Clear the console screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def strip_ansi_codes(text):
+    """Remove ANSI escape codes from text."""
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
 
 def animate_text(text, delay=0.03, color=Fore.WHITE):
+    """Print text with a typewriter effect and color."""
     text = strip_ansi_codes(text)
     for char in text:
         print(color + char, end='', flush=True)
@@ -72,6 +80,7 @@ def animate_text(text, delay=0.03, color=Fore.WHITE):
     print(Style.RESET_ALL)
 
 def display_title():
+    """Display the ASCII art title for the story generator."""
     title = """
     ██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗    ███████╗████████╗ ██████╗ ██████╗ ██╗   ██╗
     ██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔═══██╗████╗ ████║    ██╔════╝╚══██╔══╝██╔═══██╗██╔══██╗╚██╗ ██╔╝
@@ -83,6 +92,7 @@ def display_title():
     print(Fore.CYAN + Style.BRIGHT + title + Style.RESET_ALL)
 
 def get_user_input(prompt):
+    """Get and validate user input for character names."""
     while True:
         user_input = input(Fore.YELLOW + prompt + Style.RESET_ALL).strip()
         if user_input and all(c.isalpha() or c.isspace() for c in user_input):
@@ -90,6 +100,7 @@ def get_user_input(prompt):
         animate_text("Invalid input. Please use only letters and spaces.", color=Fore.RED)
 
 def main():
+    """Main function to run the Random Story Generator."""
     generator = StoryGenerator()
 
     # Add predefined elements

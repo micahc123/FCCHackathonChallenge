@@ -7,15 +7,18 @@ from colorama import init, Fore, Style
 init(autoreset=True)
 
 def clear_screen():
+    """Clear the console screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def animate_text(text, delay=0.03, color=Fore.WHITE):
+    """Print text with a typewriter effect and color."""
     for char in text:
         print(color + char, end='', flush=True)
         time.sleep(delay)
     print(Style.RESET_ALL)
 
 def display_title():
+    """Display the ASCII art title for the game."""
     title = """
     ███╗   ██╗██╗   ██╗███╗   ███╗██████╗ ███████╗██████╗     ██╗    ██╗██╗███████╗ █████╗ ██████╗ ██████╗ 
     ████╗  ██║██║   ██║████╗ ████║██╔══██╗██╔════╝██╔══██╗    ██║    ██║██║╚══███╔╝██╔══██╗██╔══██╗██╔══██╗
@@ -27,6 +30,7 @@ def display_title():
     print(Fore.CYAN + Style.BRIGHT + title + Style.RESET_ALL)
 
 def get_difficulty():
+    """Prompt the user to choose a difficulty level."""
     while True:
         animate_text("Choose your difficulty level:", color=Fore.YELLOW)
         animate_text("1. Easy (1-50, 10 guesses)", color=Fore.GREEN)
@@ -38,6 +42,8 @@ def get_difficulty():
         animate_text("Invalid choice. Please try again.", color=Fore.RED)
 
 def play_game(difficulty):
+    """Main game logic for the number guessing game."""
+    # Set game parameters based on difficulty
     if difficulty == 1:
         max_number = 50
         max_guesses = 10
@@ -58,6 +64,7 @@ def play_game(difficulty):
         animate_text(f"\nGuesses left: {guesses_left}", color=Fore.YELLOW)
         guess = input(Fore.GREEN + "Enter your guess: " + Style.RESET_ALL)
         
+        # Validate user input
         try:
             guess = int(guess)
         except ValueError:
@@ -70,6 +77,7 @@ def play_game(difficulty):
 
         guesses_left -= 1
 
+        # Check the guess and provide feedback
         if guess == secret_number:
             animate_text("\nCongratulations! You guessed the number!", color=Fore.GREEN)
             animate_text(f"You had {guesses_left} guesses left.", color=Fore.YELLOW)
@@ -79,10 +87,12 @@ def play_game(difficulty):
         else:
             animate_text("Too high! Try a lower number.", color=Fore.MAGENTA)
 
+    # Game over if all guesses are used
     animate_text(f"\nGame over! The number was {secret_number}.", color=Fore.RED)
     return False
 
 def main():
+    """Main function to run the Number Wizard game."""
     clear_screen()
     display_title()
     animate_text("Welcome to the Number Wizard Game!", color=Fore.GREEN)
